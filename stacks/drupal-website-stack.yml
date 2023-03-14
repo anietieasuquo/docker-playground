@@ -3,7 +3,6 @@ version: '3.9'
 services:
   drupal:
     image: drupal:8.2
-    container_name: drupal
     ports:
       - "8080:80"
     volumes:
@@ -22,7 +21,6 @@ services:
         condition: on-failure
   postgres:
     image: postgres:14.3
-    container_name: postgres
     ports:
       - "5432:5432"
     environment:
