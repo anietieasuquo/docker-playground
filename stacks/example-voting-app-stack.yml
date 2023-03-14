@@ -19,11 +19,15 @@ services:
     networks:
       - backend
     environment:
-      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_USER_FILE=/run/secrets/psql_username
+      - POSTGRES_PASSWORD_FILE=/run/secrets/psql_password
     deploy:
       replicas: 5
       placement:
-        constraints: [node.role == manager]
+        constraints: [ node.role == manager ]
+    secrets:
+      - psql_username
+      - psql_password
   vote:
     image: bretfisher/examplevotingapp_vote
     ports:
@@ -65,14 +69,14 @@ services:
     deploy:
       mode: replicated
       replicas: 2
-      labels: [APP=VOTING]
+      labels: [ APP=VOTING ]
       restart_policy:
         condition: on-failure
         delay: 10s
         max_attempts: 3
         window: 120s
       placement:
-        constraints: [node.role == manager]
+        constraints: [ node.role == manager ]
 
   visualizer:
     image: bretfisher/visualizer
@@ -85,7 +89,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     deploy:
       placement:
-        constraints: [node.role == manager]
+        constraints: [ node.role == manager ]
 
 networks:
   frontend:
@@ -93,3 +97,9 @@ networks:
 
 volumes:
   db-data:
+
+secrets:
+  psql_username:
+    file: psql_username.txt
+  psql_password:
+    file: psql_password.txt
