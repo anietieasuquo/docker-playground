@@ -21,6 +21,7 @@ services:
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
     deploy:
+      replicas: 5
       placement:
         constraints: [node.role == manager]
   vote:
