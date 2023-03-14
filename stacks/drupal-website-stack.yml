@@ -31,12 +31,10 @@ services:
       restart_policy:
         condition: on-failure
     environment:
-      POSTGRES_USER_FILE: /run/secrets/psql_username
       POSTGRES_PASSWORD_FILE: /run/secrets/psql_password
     volumes:
       - drupal-data:/var/lib/postgresql/data
     secrets:
-      - psql_username
       - psql_password
 volumes:
   drupal-modules:
@@ -46,7 +44,5 @@ volumes:
   drupal-data:
 
 secrets:
-  psql_username:
-    external: true
   psql_password:
     external: true
